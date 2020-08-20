@@ -1,0 +1,5 @@
+discordbot.code-workspace
+.venv/
+config\.json
+db\.json
+__pycache__/

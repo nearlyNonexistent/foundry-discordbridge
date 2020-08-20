@@ -1,0 +1,14 @@
+{
+    "name": "foundry-discordbridge",
+    "title": "Foundry Discordbridge",
+    "description": "Bridges Foundry in-game chat to a discord bot, for reposting on discord automatically.",
+    "author": "Eliza L May",
+    "version": "1.0.0",
+    "minimumCoreVersion": "0.6.5",
+    "compatibleCoreVersion": "0.6.5",
+    "scripts": [
+        "scripts/discordbridge.js"
+    ],
+    "manifest": "https://raw.githubusercontent.com/nearlyNonexistent/foundry-discordbridge/default/module.json",
+    "download": "https://github.com/nearlyNonexistent/foundry-discordbot/archive/1.0.0.zip"
+  }
