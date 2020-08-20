@@ -3,7 +3,7 @@
     "prefix": "$",
     "token": "token here",
     "db-path": "db.json",
-    "initial_extensions": [ "owner", "rp-bridge", "roleplay" ],
+    "initial_extensions": [ "owner", "rpbridge", "roleplay" ],
     "ip": "0.0.0.0",
     "port": "8080"
   }
