@@ -37,7 +37,7 @@ function bringFlag(userid, flag) {
         plantFlag(userid, flag, [0]);
         return bringFlag(userid, flag).getFlag(userid, flag);
     }
-    return
+    return get;
 }
 
 function plantFlag(userid, flag, value) {
