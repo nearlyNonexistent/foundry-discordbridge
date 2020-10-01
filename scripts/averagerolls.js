@@ -26,7 +26,7 @@ function loadJournalEntry(name = "") {
         } else {
             entry = new JournalEntry();
             entry.name = journalName;
-            game.journal.insert(entry);
+            console.log(game.journal.insert(entry));
             return loadJournalEntry(journalName);
         }
     });
