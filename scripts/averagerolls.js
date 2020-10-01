@@ -7,14 +7,16 @@ Hooks.once("init", function () {
             default: true,
             config: true
         });
-
-    game.settings.register('averagerolls', 'journalName', {
+    game.settings.register('averagerolls', 'resetRolls', {
         name: "Journal Entry Name",
-        hint: "The name of the journal entry containing averages.",
+        hint: "Reset all rolls.",
         scope: "world",
-        config: true,
+        config: false,
         default: "Average Rolls",
-        type: String
+        type: Object,
+        onClick: () => {
+            resetRolls();
+        }
     });
     startUp();
 });
@@ -35,12 +37,24 @@ function startUp() {
     })
 }
 
+function resetRolls() {
+    console.log("Resetting all rolls");
+    game.users.entries.forEach(user => {
+        userid = user.id;
+        plantFlag(userid, "sessionAverage", 0);
+        plantFlag(userid, "sessionRolls", []);
+        plantFlag(userid, "rolls", []);
+        plantFlag(userid, "average", []);
+        console.log(userid + " reset");
+    })
+}
+
 
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
     console.log(get);
     if (get == undefined) {
-        return plantFlag(userid, flag).getFlag(userid, flag);
+        console.log("Couldn't find flag");
     }
     return get;
 }
@@ -75,7 +89,7 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
     console.log("Session average for " + message.user.name + " is " + sessionAverage );
 
     message = new ChatMessage();
-    message.user = user;
+    message.data.user = user;
     message.data.content = "Session average for " + message.user.name + " is " + sessionAverage;
     ChatMessage.create(message);
 });
