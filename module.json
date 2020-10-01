@@ -1,15 +1,15 @@
 {
-    "name": "discordrolls",
-    "title": "FoundryVTT DiscordRolls",
+    "name": "averagerolls",
+    "title": "FoundryVTT AverageRolls",
     "description": "",
     "author": "BeardedJotunn",
-    "version": "0.1.7",
+    "version": "0.1.9",
     "minimumCoreVersion": "0.6.6",
     "compatibleCoreVersion": "0.6.6",
     "scripts": [
-        "scripts/discordrolls.js"
+        "scripts/averagerolls.js"
     ],
-    "url": "https://github.com/BeardedJotunn/FoundryVTT-DiscordRolls",
-    "manifest": "https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-DiscordRolls/master/module.json",
-    "download": "https://github.com/BeardedJotunn/FoundryVTT-DiscordRolls/archive/master.zip"
+    "url": "https://github.com/BeardedJotunn/FoundryVTT-AverageRolls",
+    "manifest": "https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-AverageRolls/master/module.json",
+    "download": "https://github.com/BeardedJotunn/FoundryVTT-AverageRolls/archive/master.zip"
   }
