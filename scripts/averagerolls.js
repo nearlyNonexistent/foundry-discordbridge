@@ -23,9 +23,15 @@ function startUp() {
     console.log("Resetting session rolls");
     game.users.entries.forEach(user => {
         userid = user.id;
+        plantFlag(userid, "sessionAverage", 0);
+        plantFlag(userid, "sessionRolls", []);
+        if (bringFlag(userid, "rolls") == undefined) {
+            plantFlag(userid, "rolls", []);
+        }
+        if (bringFlag(userid, "average") == undefined) {
+            plantFlag(userid, "average", []);
+        }
         console.log(userid + " reset");
-        setFlag(userid, "sessionAverage", 0);
-        setFlag(userid, "sessionRolls", []);
     })
 }
 
@@ -33,9 +39,8 @@ function startUp() {
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
     console.log(get);
-    if (false) { //get == undefined
-        plantFlag(userid, flag, [0]);
-        return bringFlag(userid, flag).getFlag(userid, flag);
+    if (get == undefined) {
+        return plantFlag(userid, flag).getFlag(userid, flag);
     }
     return get;
 }
