@@ -45,11 +45,13 @@ Hooks.once("init", function () {
 });
 
 userRolls = {};
+userPics = {};
 
 /*Load all users in the game for average rolls during session */
 function loadUsers() {
-    game.users.entities.forEach(entity => {
-        userRolls[entity.name] = [];
+    game.users.entities.forEach(user => {
+        userRolls[user.name] = [];
+        userPics[user.name] = user.img;
     });
 }
 
@@ -87,13 +89,17 @@ function generatePortraitImageElement(actor) {
     return img;
 }
 
+function outputAverages() {
+
+}
+
 Hooks.on("createChatMessage", (message, options, user) =>
 {
     if (message.isRoll && message.roll.dice[0].faces == 20) {
         result = parseInt(message.roll.result.split(" ")[0]);
         console.log(result);
         console.log(message.user.name)
-        colsole.log(userRolls)
+        console.log(userRolls)
         console.log(userRolls[message.user.name])
         if (userRolls[message.user.name] != undefined) {
             userRolls[message.user.name].push(result);
