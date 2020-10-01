@@ -1,14 +1,15 @@
 {
-    "name": "foundry-discordbridge",
-    "title": "Foundry Discordbridge",
-    "description": "Bridges Foundry in-game chat to a discord bot, for reposting on discord automatically.",
-    "author": "Eliza L May",
-    "version": "1.0.0",
+    "name": "discordrolls",
+    "title": "FoundryVTT DiscordRolls",
+    "description": "",
+    "author": "Oskar Jonsson",
+    "version": "0.1.0",
     "minimumCoreVersion": "0.6.5",
     "compatibleCoreVersion": "0.6.5",
     "scripts": [
-        "scripts/discordbridge.js"
+        "scripts/discordrolls.js"
     ],
-    "manifest": "https://raw.githubusercontent.com/nearlyNonexistent/foundry-discordbridge/default/module.json",
-    "download": "https://github.com/nearlyNonexistent/foundry-discordbot/archive/1.0.0.zip"
+    "url": "https://github.com/BeardedJotunn/FoundryVTT-DiscordRolls",
+    "manifest": "https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-DiscordRolls/master/module.json",
+    "download": "https://github.com/BeardedJotunn/FoundryVTT-DiscordRolls/archive/master.zip"
   }
