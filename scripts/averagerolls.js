@@ -11,7 +11,7 @@ Hooks.once("init", function () {
         name: "Journal Entry Name",
         hint: "Reset all rolls.",
         scope: "world",
-        config: false,
+        config: true,
         default: "Average Rolls",
         type: Boolean,
         onChange: () => {
@@ -23,10 +23,9 @@ Hooks.once("init", function () {
         game.settings.register('averagerolls', userid, {
             name: user.name + " Rolls",
             scope: "world",
-            config: false,
+            config: true,
             default: [],
             type: Array,
-            hidden: true,
         });
     })
     startUp();
