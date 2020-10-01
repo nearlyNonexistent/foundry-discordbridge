@@ -56,6 +56,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
     sum = rolls.reduce((a, b) => a + b, 0);
     average = sum/rolls.length;
     setFlag(user, "average", average);
+    console.log("Lifetime average for " + message.user.name + " is " + average );
 
     sessionRolls = getFlag(user, "sessionRolls")
     sessionRolls.push(result);
@@ -63,39 +64,5 @@ Hooks.on("createChatMessage", (message, options, user) =>
     sessionSum = sessionRolls.reduce((a, b) => a + b, 0);
     sessionAverage = sessionSum/sessionRolls.length;
     setFlag(user, "sessionAverage", sessionAverage);
-    
+    console.log("Session average for " + message.user.name + " is " + sessionAverage );
 });
-
-/*Hooks.on("createChatMessage", (message, options, user) =>
-{
-    console.log("running chatmessagecreate event for discordbridge");
-    if (!game.settings.get("averagerolls", "Enabled") || !game.user.isGM || message.data.whisper.length > 0)
-    {
-        return;
-    }
-    if (message.data.type == 5 || message.data.type == 0 || message.data.type == 4)
-    {
-        return;
-    }
-    let speaker = message.data.speaker
-    var actor = loadActorForChatMessage(speaker);
-    let img = "";
-    if (actor) {
-        img = generatePortraitImageElement(actor)
-    }
-    else {
-        img = message.user.avatar;
-    }
-    var data = {
-        "campaign": game.world.title,
-        "user": message.alias,
-        "avatar_url": game.settings.get("averagerolls", "baseURL") + img,
-        "content":message.data.content}
-    console.log(data)
-    fetch(game.settings.get("averagerolls", "REST Endpoint URL") + "/message",
-        {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(data)
-        })
-});*/
