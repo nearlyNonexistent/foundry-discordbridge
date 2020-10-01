@@ -41,7 +41,17 @@ Hooks.once("init", function () {
         default: "http://",
         type: String
     });
+    loadUsers();
 });
+
+userRolls = {};
+
+/*Load all users in the game for average rolls during session */
+function loadUsers() {
+    game.users.entities.forEach(entity => {
+        userRolls[entity.name] = [];
+    });
+}
 
 /**
  * Load the appropriate actor for a given message, leveraging token or actor or actor search.
@@ -79,12 +89,13 @@ function generatePortraitImageElement(actor) {
 
 Hooks.on("createChatMessage", (message, options, user) =>
 {
-    if (false) {
-        console.log(message.getRollData());
-    } else {
-        console.log("not a roll");
-        console.log(message);
-        console.log(message.data);
+    if (message.isRoll && message.roll.dice[0].faces == 20) {
+        result = parseInt(message.roll.result.split(" ")[0]);
+        console.log(result);
+        userRolls[message.user.name].push(result);
+        sum = userRolls[message.user.name].reduce((a, b) => a + b, 0);
+        average = sum/userRolls[message.user.name].length;
+        console.log("Average for " + message.user.name + ": " + average);
     }
 });
 
