@@ -30,6 +30,9 @@ Hooks.once("init", function () {
             type: Array,
         });
     }) */
+});
+
+Hooks.once("ready", function () { 
     startUp();
 });
 
