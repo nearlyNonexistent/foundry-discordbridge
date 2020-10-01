@@ -46,9 +46,11 @@ Hooks.once("init", function () {
 
 userRolls = {};
 userPics = {};
+usersLoaded = false;
 
 /*Load all users in the game for average rolls during session */
 function loadUsers() {
+    console.log("Loading users");
     game.users.entities.forEach(user => {
         userRolls[user.name] = [];
         userPics[user.name] = user.img;
@@ -95,6 +97,10 @@ function outputAverages() {
 
 Hooks.on("createChatMessage", (message, options, user) =>
 {
+    if (!usersLoaded) {
+        console.log("Users not loaded, retrying");
+        loadUsers();
+    }
     if (message.isRoll && message.roll.dice[0].faces == 20) {
         result = parseInt(message.roll.result.split(" ")[0]);
         console.log(result);
