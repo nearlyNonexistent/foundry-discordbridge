@@ -16,11 +16,22 @@ Hooks.once("init", function () {
         default: "Average Rolls",
         type: String
     });
+    startUp();
 });
+
+function startUp() {
+    console.log("Resetting session rolls");
+    game.users.entries.forEach(user => {
+        userid = user.id;
+        console.log(userid + " reset");
+        setFlag(userid, "sessionAverage", 0);
+        setFlag(userid, "sessionRolls", []);
+    })
+}
 
 
 function getFlag(userid, flag) {
-    get = game.users.entries[userid].getFlag("averagerolls", flag)
+    get = game.users.get(userid).getFlag("averagerolls", flag)
     if (get == undefined) {
         return setFlag(userid, flag, [0])
     }
@@ -28,17 +39,7 @@ function getFlag(userid, flag) {
 }
 
 function setFlag(userid, flag, value) {
-    return game.users.entries[userid].setFlag("averagerolls", flag, value)
-}
-
-/*Load all users in the game for average rolls during session */
-function loadUsers() {
-    userRolls = {};
-    console.log("Loading users");
-    game.users.entities.forEach(user => {
-        userRolls[user.name] = [];
-    });
-    return userRolls;
+    return game.users.get(userid).setFlag("averagerolls", flag, value)
 }
 
 Hooks.on("createChatMessage", (message, options, user) =>
@@ -46,18 +47,22 @@ Hooks.on("createChatMessage", (message, options, user) =>
     if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
         return;
     }
-    console.log(user);
     name = message.user.name;
-    userid = message.user.id;
-    console.log(userid);
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
-    rolls = getFlag(userid, "rolls")
+    rolls = getFlag(user, "rolls")
     rolls.push(result);
-    setFlag(userid, "rolls", rolls);
+    setFlag(user, "rolls", rolls);
     sum = rolls.reduce((a, b) => a + b, 0);
     average = sum/rolls.length;
-    setFlag(userid, "average", average);
+    setFlag(user, "average", average);
+
+    sessionRolls = getFlag(user, "sessionRolls")
+    sessionRolls.push(result);
+    setFlag(user, "sessionRolls", sessionRolls);
+    sessionSum = sessionRolls.reduce((a, b) => a + b, 0);
+    sessionAverage = sessionSum/sessionRolls.length;
+    setFlag(user, "sessionAverage", sessionAverage);
     
 });
 
