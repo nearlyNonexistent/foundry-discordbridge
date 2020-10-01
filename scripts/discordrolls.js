@@ -79,10 +79,12 @@ function generatePortraitImageElement(actor) {
 
 Hooks.on("createChatMessage", (message, options, user) =>
 {
-    if (message.data.isRoll) {
+    if (message.isRoll()) {
         console.log(message.getRollData());
     } else {
         console.log("not a roll");
+        console.log(message);
+        console.log(message.data);
     }
 });
 
