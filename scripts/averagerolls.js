@@ -33,8 +33,8 @@ function startUp() {
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
     if (get == undefined) {
-        setFlag(userid, flag, [0])
-        return plantFlag(userid, flag).getFlag(userid, flag);
+        plantFlag(userid, flag, [0]);
+        return bringFlag(userid, flag).getFlag(userid, flag);
     }
     return
 }
@@ -70,4 +70,6 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
 
     message = new ChatMessage();
     message.user = user;
+    message.data.content = "Session average for " + message.user.name + " is " + sessionAverage;
+    ChatMessage.create(message);
 });
