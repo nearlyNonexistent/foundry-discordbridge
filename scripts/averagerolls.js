@@ -47,6 +47,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
     if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
         return;
     }
+    console.log(message);
     name = message.user.name;
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
