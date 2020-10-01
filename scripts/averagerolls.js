@@ -46,15 +46,18 @@ Hooks.on("createChatMessage", (message, options, user) =>
     if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
         return;
     }
+    console.log(user);
     name = message.user.name;
+    userid = message.user.id;
+    console.log(userid);
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
-    rolls = getFlag(user.id, "rolls")
+    rolls = getFlag(userid, "rolls")
     rolls.push(result);
-    setFlag(user.id, "rolls", rolls);
+    setFlag(userid, "rolls", rolls);
     sum = rolls.reduce((a, b) => a + b, 0);
     average = sum/rolls.length;
-    setFlag(user.id, "average", average);
+    setFlag(userid, "average", average);
     
 });
 
