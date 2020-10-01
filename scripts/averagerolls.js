@@ -33,7 +33,7 @@ function startUp() {
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
     console.log(get);
-    if (get == undefined) {
+    if (false) { //get == undefined
         plantFlag(userid, flag, [0]);
         return bringFlag(userid, flag).getFlag(userid, flag);
     }
