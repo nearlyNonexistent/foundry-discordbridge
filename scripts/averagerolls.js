@@ -7,6 +7,8 @@ Hooks.once("init", function () {
             default: true,
             config: true
         });
+    
+    /*
     game.settings.register('averagerolls', 'resetRolls', {
         name: "Journal Entry Name",
         hint: "Reset all rolls.",
@@ -27,7 +29,7 @@ Hooks.once("init", function () {
             default: [],
             type: Array,
         });
-    })
+    }) */
     startUp();
 });
 
@@ -37,12 +39,14 @@ function startUp() {
         userid = user.id;
         plantFlag(userid, "sessionAverage", 0);
         plantFlag(userid, "sessionRolls", []);
+        /*
         if (bringFlag(userid, "rolls") == undefined) {
             plantFlag(userid, "rolls", []);
         }
         if (bringFlag(userid, "average") == undefined) {
             plantFlag(userid, "average", []);
         }
+        */
         console.log(userid + " reset");
     })
 }
@@ -82,21 +86,6 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
     name = message.user.name;
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
-    rolls = bringFlag(user, "rolls")
-    rolls.push(result);
-    plantFlag(user, "rolls", rolls);
-    sum = rolls.reduce((a, b) => a + b, 0);
-    average = sum/rolls.length;
-    plantFlag(user, "average", average);
-    console.log("Lifetime average for " + message.user.name + " is " + average );
-
-    rolls = game.settings.get("averagerolls", user)
-    rolls.push(result);
-    plantFlag(user, "rolls", rolls);
-    sum = rolls.reduce((a, b) => a + b, 0);
-    average = sum/rolls.length;
-    plantFlag(user, "average", average);
-    console.log("Lifetime average for " + message.user.name + " is " + average );
 
     sessionRolls = bringFlag(user, "sessionRolls")
     sessionRolls.push(result);
@@ -105,6 +94,24 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
     sessionAverage = sessionSum/sessionRolls.length;
     plantFlag(user, "sessionAverage", sessionAverage);
     console.log("Session average for " + message.user.name + " is " + sessionAverage );
+
+    /*
+    rolls = bringFlag(user, "rolls")
+    rolls.push(result);
+    plantFlag(user, "rolls", rolls);
+    sum = rolls.reduce((a, b) => a + b, 0);
+    average = sum/rolls.length;
+    plantFlag(user, "average", average);
+    console.log("Lifetime average for " + message.user.name + " is " + average );
+    
+    rolls = game.settings.get("averagerolls", user)
+    rolls.push(result);
+    plantFlag(user, "rolls", rolls);
+    sum = rolls.reduce((a, b) => a + b, 0);
+    average = sum/rolls.length;
+    plantFlag(user, "average", average);
+    console.log("Lifetime average for " + message.user.name + " is " + average );
+    */
 
     msg = new ChatMessage();
     msg.data.user = user;
