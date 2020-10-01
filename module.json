@@ -1,9 +1,9 @@
 {
     "name": "averagerolls",
-    "title": "FoundryVTT AverageRolls",
+    "title": "AverageRolls",
     "description": "",
     "author": "BeardedJotunn",
-    "version": "0.4.2",
+    "version": "0.4.5",
     "minimumCoreVersion": "0.6.6",
     "compatibleCoreVersion": "0.6.6",
     "scripts": [

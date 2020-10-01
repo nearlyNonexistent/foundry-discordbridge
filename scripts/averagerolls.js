@@ -13,11 +13,22 @@ Hooks.once("init", function () {
         scope: "world",
         config: false,
         default: "Average Rolls",
-        type: Object,
-        onClick: () => {
+        type: Boolean,
+        onChange: () => {
             resetRolls();
         }
     });
+    game.users.entries.forEach(user => {
+        userid = user.id;
+        game.settings.register('averagerolls', userid, {
+            name: user.name + " Rolls",
+            scope: "world",
+            config: false,
+            default: [],
+            type: Array,
+            hidden: true,
+        });
+    })
     startUp();
 });
 
@@ -80,6 +91,14 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
     plantFlag(user, "average", average);
     console.log("Lifetime average for " + message.user.name + " is " + average );
 
+    rolls = game.settings.get("averagerolls", user)
+    rolls.push(result);
+    plantFlag(user, "rolls", rolls);
+    sum = rolls.reduce((a, b) => a + b, 0);
+    average = sum/rolls.length;
+    plantFlag(user, "average", average);
+    console.log("Lifetime average for " + message.user.name + " is " + average );
+
     sessionRolls = bringFlag(user, "sessionRolls")
     sessionRolls.push(result);
     plantFlag(user, "sessionRolls", sessionRolls);
@@ -88,8 +107,9 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
     plantFlag(user, "sessionAverage", sessionAverage);
     console.log("Session average for " + message.user.name + " is " + sessionAverage );
 
-    message = new ChatMessage();
-    message.data.user = user;
-    message.data.content = "Session average for " + message.user.name + " is " + sessionAverage;
-    ChatMessage.create(message);
+    msg = new ChatMessage();
+    msg.data.user = user;
+    msg.user = message.user;
+    msg.data.content = "Session average for " + name + " is " + sessionAverage;
+    ChatMessage.create(msg);
 });
