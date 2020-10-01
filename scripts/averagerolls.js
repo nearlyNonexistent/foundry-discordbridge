@@ -4,7 +4,7 @@ Hooks.once("init", function () {
             name: "Enabled",
             scope: "world",
             type: Boolean,
-            default: false,
+            default: true,
             config: true
         });
 
@@ -19,7 +19,7 @@ Hooks.once("init", function () {
 });
 
 function loadJournalEntry(name = "") {
-    journalName = name == "" ? game.settings.get('FoundryVTT-AverageRolls', 'journalName') : name;
+    journalName = name == "" ? game.settings.get('averagerolls', 'journalName') : name;
     game.journal.entries.forEach(entry => {
         if (entry.name == journalName) {
             return entry;
@@ -59,7 +59,7 @@ function outputAverages(entry, userRolls) {
 
 Hooks.on("createChatMessage", (message, options, user) =>
 {
-    if (!game.settings.get("FoundryVTT-AverageRolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
+    if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
         return;
     }
     name = message.user.name;
@@ -86,7 +86,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
 /*Hooks.on("createChatMessage", (message, options, user) =>
 {
     console.log("running chatmessagecreate event for discordbridge");
-    if (!game.settings.get("FoundryVTT-AverageRolls", "Enabled") || !game.user.isGM || message.data.whisper.length > 0)
+    if (!game.settings.get("averagerolls", "Enabled") || !game.user.isGM || message.data.whisper.length > 0)
     {
         return;
     }
@@ -106,10 +106,10 @@ Hooks.on("createChatMessage", (message, options, user) =>
     var data = {
         "campaign": game.world.title,
         "user": message.alias,
-        "avatar_url": game.settings.get("FoundryVTT-AverageRolls", "baseURL") + img,
+        "avatar_url": game.settings.get("averagerolls", "baseURL") + img,
         "content":message.data.content}
     console.log(data)
-    fetch(game.settings.get("FoundryVTT-AverageRolls", "REST Endpoint URL") + "/message",
+    fetch(game.settings.get("averagerolls", "REST Endpoint URL") + "/message",
         {
             method: "POST",
             headers: {"Content-Type": "application/json"},
