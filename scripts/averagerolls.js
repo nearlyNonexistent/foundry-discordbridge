@@ -43,9 +43,9 @@ function plantFlag(userid, flag, value) {
     return game.users.get(userid).setFlag("averagerolls", flag, value)
 }
 
-Hooks.on("createChatMessage", (message, options, user) =>
+Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll || !message.roll.dice[0].faces == 20
 {
-    if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
+    if (!game.settings.get("averagerolls", "Enabled")) {
         return;
     }
     console.log(message);
@@ -67,4 +67,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
     sessionAverage = sessionSum/sessionRolls.length;
     plantFlag(user, "sessionAverage", sessionAverage);
     console.log("Session average for " + message.user.name + " is " + sessionAverage );
+
+    message = new ChatMessage();
+    message.user = user;
 });
