@@ -1,5 +1,5 @@
 Hooks.once("init", function () {
-    game.settings.register('FoundryVTT-AverageRolls', "Enabled",
+    game.settings.register('averagerolls', "Enabled",
         {
             name: "Enabled",
             scope: "world",
@@ -8,7 +8,7 @@ Hooks.once("init", function () {
             config: true
         });
 
-    game.settings.register('FoundryVTT-AverageRolls', 'journalName', {
+    game.settings.register('averagerolls', 'journalName', {
         name: "Journal Entry Name",
         hint: "The name of the journal entry containing averages.",
         scope: "world",
@@ -24,7 +24,7 @@ function loadJournalEntry(name = "") {
         if (entry.name == journalName) {
             return entry;
         } else {
-            entry = new journalEntry();
+            entry = new JournalEntry();
             entry.name = journalName;
             game.journal.insert(entry);
             return loadJournalEntry(journalName);
