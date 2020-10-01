@@ -92,10 +92,13 @@ Hooks.on("createChatMessage", (message, options, user) =>
     if (message.isRoll && message.roll.dice[0].faces == 20) {
         result = parseInt(message.roll.result.split(" ")[0]);
         console.log(result);
-        userRolls[message.user.name].push(result);
-        sum = userRolls[message.user.name].reduce((a, b) => a + b, 0);
-        average = sum/userRolls[message.user.name].length;
-        console.log("Average for " + message.user.name + ": " + average);
+        console.log(userRolls[message.user.name])
+        if (userRolls[message.user.name] != undefined) {
+            userRolls[message.user.name].push(result);
+            sum = userRolls[message.user.name].reduce((a, b) => a + b, 0);
+            average = sum/userRolls[message.user.name].length;
+            console.log("Average for " + message.user.name + ": " + average);
+        }
     }
 });
 
