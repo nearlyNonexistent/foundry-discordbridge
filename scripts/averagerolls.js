@@ -77,12 +77,31 @@ function plantFlag(userid, flag, value) {
     return game.users.get(userid).setFlag("averagerolls", flag, value)
 }
 
-Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll || !message.roll.dice[0].faces == 20
+function outputAverages(userid = "") {
+    if (!userid == "") {
+        user = game.users.get(userid);
+        msg = new ChatMessage();
+        msg.user = user;
+        msg.data.user = userid;
+        msg.data.content = "Session average for " + user.name + " is " + bringFlag(userid, "sessionAverage");
+        ChatMessage.create(msg);
+    } else {
+        game.users.entries.forEach(user => {
+            userid = user.id;
+            msg = new ChatMessage();
+            msg.user = user;
+            msg.data.user = userid;
+            msg.data.content = "Session average for " + user.name + " is " + bringFlag(userid, "sessionAverage");
+            ChatMessage.create(msg);
+        })
+    }
+}
+
+Hooks.on("createChatMessage", (message, options, user) => 
 {
-    if (!game.settings.get("averagerolls", "Enabled")) {
+    if (!game.settings.get("averagerolls", "Enabled" || !message.isRoll || !message.roll.dice[0].faces == 20)) {
         return;
     }
-    console.log(message);
     name = message.user.name;
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
@@ -112,10 +131,4 @@ Hooks.on("createChatMessage", (message, options, user) => //|| !message.isRoll |
     plantFlag(user, "average", average);
     console.log("Lifetime average for " + message.user.name + " is " + average );
     */
-
-    msg = new ChatMessage();
-    msg.data.user = user;
-    msg.user = message.user;
-    msg.data.content = "Session average for " + name + " is " + sessionAverage;
-    ChatMessage.create(msg);
 });
