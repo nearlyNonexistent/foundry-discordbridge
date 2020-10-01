@@ -1,14 +1,14 @@
-#Average Rolls
+# Average Rolls
 A module for Foundry VTT.
 
 This is a simple module to get average rolls per user per session. 
 
-##How to:
+## How to:
  - Install and enable it, you can use https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-AverageRolls/master/module.json for manual install.
  - Make a macro with the following script to send a message to chat with everybody's average:
  - outputAverages();
 
-##Future Plans:
+## Future Plans:
  - Add lifetime averages.
  - Better way to display averages.
  - Perhaps some Discord connection. 
