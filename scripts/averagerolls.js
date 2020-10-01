@@ -18,19 +18,17 @@ Hooks.once("init", function () {
     });
 });
 
-function loadJournalEntry(name = "") {
-    journalName = name == "" ? game.settings.get('averagerolls', 'journalName') : name;
-    game.journal.entries.forEach(entry => {
-        if (entry.name == journalName) {
-            return entry;
-        } else {
-            entry = new JournalEntry();
-            entry.name = journalName;
-            game.journal.insert(entry);
-            console.log(entry)
-            return entry;
-        }
-    });
+
+function getFlag(userid, flag) {
+    get = game.users.entries[userid].getFlag("averagerolls", flag)
+    if (get == undefined) {
+        return setFlag(userid, flag, [0])
+    }
+    return
+}
+
+function setFlag(userid, flag, value) {
+    return game.users.entries[userid].setFlag("averagerolls", flag, value)
 }
 
 /*Load all users in the game for average rolls during session */
@@ -43,21 +41,6 @@ function loadUsers() {
     return userRolls;
 }
 
-function outputAverages(entry, userRolls) {
-    userAverages = userRolls;
-    users = Object.keys(userRolls);
-    for (const user of users) {
-        average = 0;
-        sum = userRolls[user].reduce((a, b) => a + b, 0);
-        average = sum/userRolls[user].length;
-        userRolls[user] = average;
-        console.log("Average for " + user + ": " + average);
-    }
-    data = entry.data;
-    data.content = userRolls.toString();
-    entry.update(data);
-}
-
 Hooks.on("createChatMessage", (message, options, user) =>
 {
     if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
@@ -66,22 +49,13 @@ Hooks.on("createChatMessage", (message, options, user) =>
     name = message.user.name;
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
-
-    userRolls = loadUsers();
-    users = Object.keys(userRolls);
-    for (const key of users) {
-        entry = loadJournalEntry(key);
-        userRolls[key] = entry.data.content.split(';');
-        if (key == name) {
-            userRolls[key].push(result);
-            data = entry.data;
-            data.content = userRolls[key].join(';');
-            entry.update(data);
-        }
-    }
-
-    averageEntry = loadJournalEntry();
-    outputAverages(averageEntry, userRolls);
+    rolls = getFlag(user.id, "rolls")
+    rolls.push(result);
+    setFlag(user.id, "rolls", rolls);
+    sum = rolls.reduce((a, b) => a + b, 0);
+    average = sum/rolls.length;
+    setFlag(user.id, "average", average);
+    
 });
 
 /*Hooks.on("createChatMessage", (message, options, user) =>
