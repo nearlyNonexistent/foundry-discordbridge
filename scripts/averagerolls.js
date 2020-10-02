@@ -36,6 +36,7 @@ Hooks.once("ready", function () {
     startUp();
 });
 
+// Adding flags for rolls and average to all users
 function startUp() {
     console.log("Resetting session rolls");
     game.users.entries.forEach(user => {
@@ -53,7 +54,7 @@ function startUp() {
         console.log(userid + " reset");
     })
 }
-
+ // Resets all flags
 function resetRolls() {
     console.log("Resetting all rolls");
     game.users.entries.forEach(user => {
@@ -66,7 +67,7 @@ function resetRolls() {
     })
 }
 
-
+// Get specified flag for userid
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
     console.log(get);
@@ -76,17 +77,21 @@ function bringFlag(userid, flag) {
     return get;
 }
 
+// Set specified flag for userid
 function plantFlag(userid, flag, value) {
     return game.users.get(userid).setFlag("averagerolls", flag, value)
 }
 
+// Output session average for all users as a chat message
 function outputAverages(userid = "") {
     if (!userid == "") {
         user = game.users.get(userid);
         msg = new ChatMessage();
         msg.user = user;
         msg.data.user = userid;
-        msg.data.content = "Session average for " + user.name + " is " + bringFlag(userid, "sessionAverage");
+        sessionAverage = bringFlag(userid, "sessionAverage");
+        roundedAverage = Math.round((sessionAverage + Number.EPSILON) * 100) / 100;
+        msg.data.content = "Session average for " + user.name + " is " + roundedAverage;
         ChatMessage.create(msg);
     } else {
         game.users.entries.forEach(user => {
@@ -94,7 +99,9 @@ function outputAverages(userid = "") {
             msg = new ChatMessage();
             msg.user = user;
             msg.data.user = userid;
-            msg.data.content = "Session average for " + user.name + " is " + bringFlag(userid, "sessionAverage");
+            sessionAverage = bringFlag(userid, "sessionAverage");
+            roundedAverage = Math.round((sessionAverage + Number.EPSILON) * 100) / 100;
+            msg.data.content = "Session average for " + user.name + " is " + roundedAverage;
             ChatMessage.create(msg);
         })
     }
