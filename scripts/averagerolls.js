@@ -102,12 +102,10 @@ function outputAverages(userid = "") {
 
 Hooks.on("createChatMessage", (message, options, user) => 
 {
-    if (!game.settings.get("averagerolls", "Enabled" || !message.isRoll || !message.roll.dice[0].faces == 20)) {
+    if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
         console.log("returning");
         return;
     }
-    console.log(message.isRoll)
-    console.log(message.roll.dice[0].faces)
     name = message.user.name;
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
