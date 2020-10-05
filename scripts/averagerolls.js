@@ -183,7 +183,7 @@ function updateJournal() {
     if (typeof entry == "undefined" || entry == null) {
         return createJournal();
     }
-    console.log(entry)
+    
     entry.data.content = content;
     return JournalEntry.update(entry);
 }
