@@ -111,11 +111,13 @@ function outputAverages(userid = "") {
 
 function createJournal() {
     gm = "";
-    game.users.entries.forEach(user => {
+    gmFound = false;
+    game.users.entries.some(function(user, index) {
         if (user.isGM) {
             gm = user;
-            break;
+            gmFound = true;
         }
+        return gmFound;
     })
     userid = user.id;
     entry = new JournalEntry();
@@ -138,15 +140,19 @@ function createJournal() {
 
 function updateJournal() {
     entry;
-    game.users.entries.forEach(user => {
+    gmFound = false;
+    game.users.entries.some(function(user, index) {
         if (user.isGM) {
             entry = getJournal(bringFlag(user.id, "journalId"));
-            break;
+            gmFound = true;
         }
+        return gmFound;
     })
+
     if (typeof entry == "undefined") {
         return createJournal();
     }
+
     content = "AverageRolls";
     game.users.entries.forEach(user => {
         sessAverage = bringFlag(userid, "sessionAverage");

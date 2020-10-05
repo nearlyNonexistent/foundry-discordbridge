@@ -5,8 +5,8 @@ This is a simple module to get session and lifetime average D20 rolls per user p
 
 ## How to:
  - Install, activate and make sure it is enabled in settings, if it isn't enabled restart Foundry after enabling. You can use https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-AverageRolls/master/module.json for manual install.
- - Make a macro with the following script to send a message to chat with everybody's average:
- - outputAverages();
+ - If enabled a Journal Entry called "Average Rolls" will be created where you can see everyone's averages.
+ - Make a macro with the following script if you want to send a message to chat with everybody's average: outputAverages();
 
 ## Future Plans:
  - ~~Add lifetime averages.~~ Added, waiting to see how it works long term.
