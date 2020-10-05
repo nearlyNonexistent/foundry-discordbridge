@@ -118,7 +118,6 @@ function createJournal() {
         if (user.isGM) {
             gm = user;
             gmFound = true;
-            console.log(user.id + " is GM")
         }
         return gmFound;
     })
@@ -155,7 +154,6 @@ function updateJournal() {
         if (user.isGM) {
             entry = getJournal(bringFlag(user.id, "journalId"));
             gmFound = true;
-            console.log(user.id + " is GM")
         }
         return gmFound;
     })
@@ -164,14 +162,14 @@ function updateJournal() {
         return createJournal();
     }
 
-    content = "AverageRolls";
+    content = "<p>AverageRolls</p>";
     game.users.entries.forEach(user => {
         userid = user.id;
         sessAverage = bringFlag(userid, "sessionAverage");
         lifeAverage = bringFlag(userid, "lifetimeAverage");
         sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
-        content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
+        content += "<p>--------</p><p>" + user.name + "<br>Session Average: " + sessionAverage + "<br>Lifetime Average: " + lifetimeAverage + "</p>";
     })
     
     entry.data.content = content;
@@ -189,7 +187,6 @@ function findJournal() {
                     console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
                     plantFlag(user.id, "journalId", entry.id);
                     gmFound = true;
-                    console.log(user.id + " is GM")
                 }
                 return gmFound;
             })
@@ -205,6 +202,7 @@ function findJournal() {
 function getJournal(journalId) {
     entry = game.journal.get(journalId);
     if (typeof entry == "undefined" || entry == null) {
+        console.log("Journal not found, looking through all journals.")
         return findJournal();
     }
     return entry;
