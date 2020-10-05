@@ -139,7 +139,6 @@ function createJournal() {
 }
 
 function updateJournal() {
-    entry;
     gmFound = false;
     game.users.entries.some(function(user, index) {
         if (user.isGM) {
