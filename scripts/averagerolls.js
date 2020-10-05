@@ -97,6 +97,16 @@ function outputAverages(userid = "") {
     }
 }
 
+function createJournal() {
+    
+}
+
+Hooks.on("createJournalEntry", (entry, options, user) => 
+{
+    console.log(entry);
+    console.log(options);
+},
+
 // Hooks the chat message and if it's a D20 roll adds it to the roll flag and calculates averages for user that sent it.
 Hooks.on("createChatMessage", (message, options, user) => 
 {
