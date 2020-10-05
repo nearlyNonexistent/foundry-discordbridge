@@ -137,7 +137,7 @@ function createJournal() {
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
         if (user.isGM) {
-            console.log('Planting journalId flag ' + entry.id);
+            console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
             plantFlag(userid, "journalId", entry.id);
         }
     })
@@ -183,7 +183,7 @@ function findJournal() {
             journalEntry = entry;
             game.users.entries.some(function(user, index) {
                 if (user.isGM) {
-                    console.log('Planting journalId flag ' + entry.id);
+                    console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
                     plantFlag(userid, "journalId", entry.id);
                     gmFound = true;
                 }
