@@ -148,6 +148,7 @@ function createJournal() {
 }
 
 function updateJournal() {
+    console.log(1);
     entry = null;
     gmFound = false;
     game.users.entries.some(function(user, index) {
@@ -157,7 +158,7 @@ function updateJournal() {
         }
         return gmFound;
     })
-
+    console.log(2);
     if (typeof entry == "undefined" || entry == null) {
         return createJournal();
     }
@@ -171,9 +172,10 @@ function updateJournal() {
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "<p>--------</p><p>" + user.name + "<br>Session Average: " + sessionAverage + "<br>Lifetime Average: " + lifetimeAverage + "</p>";
     })
-    
+    console.log(3);
     entry.data.content = content;
     JournalEntry.update(entry);
+    console.log(4);
 }
 
 function findJournal() {
