@@ -119,7 +119,7 @@ function createJournal() {
         }
         return gmFound;
     })
-    userid = user.id;
+    userid = gm.id;
     entry = new JournalEntry();
     entry.user = gm;
     entry.name = "Average Rolls";

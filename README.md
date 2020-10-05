@@ -1,5 +1,5 @@
 # Average Rolls
-A module for Foundry VTT.
+###### A module for Foundry VTT.
 
 This is a simple module to get session and lifetime average D20 rolls per user per session. 
 
