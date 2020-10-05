@@ -131,11 +131,15 @@ function createJournal() {
 
     content = "AverageRolls";
     game.users.entries.forEach(user => {
+        userid = user.id;
         sessAverage = bringFlag(userid, "sessionAverage");
-        lifeAverage = bringFlag(userid, "sessionAverage");
+        lifeAverage = bringFlag(userid, "lifetimeAverage");
         sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
+        if (user.isGM) {
+            plantFlag(userid, "journalId", entry.id);
+        }
     })
     
     entry.data.content = content;
@@ -159,6 +163,7 @@ function updateJournal() {
 
     content = "AverageRolls";
     game.users.entries.forEach(user => {
+        userid = user.id;
         sessAverage = bringFlag(userid, "sessionAverage");
         lifeAverage = bringFlag(userid, "sessionAverage");
         sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
@@ -171,8 +176,16 @@ function updateJournal() {
 }
 
 function findJournal() {
+    gmFound = false;
     game.journal.entries.forEach(entry => {
         if (entry.name = "Average Rolls") {
+            game.users.entries.some(function(user, index) {
+                if (user.isGM) {
+                    plantFlag(userid, "journalId", entry.id);
+                    gmFound = true;
+                }
+                return gmFound;
+            })
             return entry;
         }
     })
@@ -180,7 +193,7 @@ function findJournal() {
 
 function getJournal(journalId) {
     entry = game.journal.get(journalId);
-    if (typeof entry == "undefined") {
+    if (typeof entry == "undefined" || entry == null) {
         return findJournal();
     }
     return entry;
