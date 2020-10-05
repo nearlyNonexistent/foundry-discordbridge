@@ -160,6 +160,7 @@ function updateJournal() {
     })
     console.log(2);
     if (typeof entry == "undefined" || entry == null) {
+        console.log(5);
         return createJournal();
     }
 
