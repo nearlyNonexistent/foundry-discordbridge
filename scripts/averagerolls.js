@@ -217,6 +217,17 @@ function getJournal(journalId) {
     return entry;
 }
 
+class timeOut {
+    constructor(fn, interval) {
+        var id = setTimeout(fn, interval);
+        this.cleared = false;
+        this.clear = function () {
+            this.cleared = true;
+            clearTimeout(id);
+        };
+    }
+}
+
 
 // Hooks the chat message and if it's a D20 roll adds it to the roll flag and calculates averages for user that sent it.
 Hooks.on("createChatMessage", (message, options, user) => 
@@ -243,6 +254,18 @@ Hooks.on("createChatMessage", (message, options, user) =>
     plantFlag(user, "lifetimeRolls", newRolls);
     plantFlag(user, "lifetimeAverage", newAverage);
     console.log("AverageRolls - Lifetime average for " + message.user.name + " is " + newAverage );
+
+    var t = new timeOut(function () {
+        alert('this is a test');
+    }, 5000);
+    console.log(t.cleared); // false
+    t.clear();
+    console.log(t.cleared); // true
+
+    var x = new timeOut(function () {
+        alert('this is a test');
+    }, 2000);
+    
 
     if (game.settings.get("averagerolls", "JournalEntry")) {
         console.log("AverageRolls - Updating Average Rolls Journal Entry.")
