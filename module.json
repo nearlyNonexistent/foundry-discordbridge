@@ -1,9 +1,9 @@
 {
     "name": "averagerolls-dev",
-    "title": "AverageRolls",
+    "title": "AverageRolls-Dev",
     "description": "",
     "author": "BeardedJotunn",
-    "version": "0.8.4",
+    "version": "0.8.5",
     "minimumCoreVersion": "0.6.6",
     "compatibleCoreVersion": "0.6.6",
     "scripts": [
