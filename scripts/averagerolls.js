@@ -1,12 +1,18 @@
 Hooks.once("init", function () {
-    game.settings.register('averagerolls', "Enabled",
-        {
-            name: "Enabled",
-            scope: "world",
-            type: Boolean,
-            default: true,
-            config: true
-        });
+    game.settings.register('averagerolls', "Enabled", {
+        name: "Enabled",
+        scope: "world",
+        type: Boolean,
+        default: true,
+        config: true
+    });
+    game.settings.register('averagerolls', "JournalEntry", {
+        name: "Create Journal Entry",
+        scope: "world",
+        type: Boolean,
+        default: true,
+        config: true
+    });
 });
 
 Hooks.once("ready", function () { 
@@ -30,6 +36,9 @@ function startUp() {
         }
         console.log(userid + " reset for session.");
     })
+    if (game.settings.get("averagerolls", "JournalEntry")) {
+        updateJournal();
+    }
 }
  // Resets all flags
 function resetRolls() {
@@ -135,6 +144,9 @@ function updateJournal() {
             break;
         }
     })
+    if (typeof entry == "undefined") {
+        return createJournal();
+    }
     content = "AverageRolls";
     game.users.entries.forEach(user => {
         sessAverage = bringFlag(userid, "sessionAverage");
@@ -197,4 +209,8 @@ Hooks.on("createChatMessage", (message, options, user) =>
     plantFlag(user, "lifetimeRolls", newRolls);
     plantFlag(user, "lifetimeAverage", newAverage);
     console.log("Lifetime average for " + message.user.name + " is " + newAverage );
+
+    if (game.settings.get("averagerolls", "JournalEntry")) {
+        updateJournal();
+    }
 });
