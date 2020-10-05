@@ -168,7 +168,7 @@ function updateJournal() {
     if (typeof entry == "undefined" || entry == null) {
         return createJournal();
     }
-
+    console.log(entry)
     entry.data.content = content;
     return JournalEntry.update(entry);
 }
@@ -181,7 +181,6 @@ function findJournal() {
             journalEntry = entry;
             game.users.entries.some(function(user, index) {
                 if (user.isGM) {
-                    console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
                     plantFlag(user.id, "journalId", entry.id);
                     gmFound = true;
                 }
@@ -192,7 +191,6 @@ function findJournal() {
     if (journalEntry == null) {
         console.log("Couldn't find Journal Entry.");
     }
-    console.log(journalEntry);
     return journalEntry;
 }
 
