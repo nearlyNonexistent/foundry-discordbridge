@@ -152,7 +152,7 @@ function updateJournal() {
     entry = null;
     
     content = "<p>AverageRolls</p>";
-    /*
+    
     game.users.entries.forEach(user => {
         userid = user.id;
         sessAverage = bringFlag(userid, "sessionAverage");
@@ -163,20 +163,6 @@ function updateJournal() {
         if (user.isGM) {
             entry = getJournal(bringFlag(user.id, "journalId"));
         }
-    })*/
-    gmFound = false;
-    game.users.entries.some(function(user) {
-        userid = user.id;
-        sessAverage = bringFlag(userid, "sessionAverage");
-        lifeAverage = bringFlag(userid, "lifetimeAverage");
-        sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
-        lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
-        content += "<p>--------</p><p>" + user.name + "<br>Session Average: " + sessionAverage + "<br>Lifetime Average: " + lifetimeAverage + "</p>";
-        if (user.isGM) {
-            entry = getJournal(bringFlag(user.id, "journalId"));
-            gmFound = true;
-        }
-        return gmFound;
     })
 
     if (typeof entry == "undefined" || entry == null) {
@@ -254,21 +240,14 @@ Hooks.on("createChatMessage", (message, options, user) =>
     plantFlag(user, "lifetimeRolls", newRolls);
     plantFlag(user, "lifetimeAverage", newAverage);
     console.log("AverageRolls - Lifetime average for " + message.user.name + " is " + newAverage );
-
-    var t = new timeOut(function () {
-        alert('this is a test');
-    }, 5000);
-    console.log(t.cleared); // false
-    t.clear();
-    console.log(t.cleared); // true
-
-    var x = new timeOut(function () {
-        alert('this is a test');
-    }, 2000);
     
-
     if (game.settings.get("averagerolls", "JournalEntry")) {
-        console.log("AverageRolls - Updating Average Rolls Journal Entry.")
-        updateJournal();
+        if (typeof timer == "undefined" || timer.cleared) {
+            timer = new timeOut(function () {
+                console.log("AverageRolls - Updating Average Rolls Journal Entry.")
+                //updateJournal();
+                timer.clear();
+            }, 5000);
+        }
     }
 });
