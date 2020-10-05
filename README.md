@@ -1,7 +1,7 @@
 # Average Rolls
 ###### A module for Foundry VTT.
 
-This is a simple module to get session and lifetime average D20 rolls per user per session. 
+This is a simple module to get session and lifetime average D20 rolls per user.
 
 ## How to:
  - Install, activate and make sure it is enabled in settings, if it isn't enabled restart Foundry after enabling. You can use https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-AverageRolls/master/module.json for manual install.

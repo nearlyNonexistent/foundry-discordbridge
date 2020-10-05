@@ -1,15 +1,15 @@
 {
     "name": "averagerolls-dev",
     "title": "AverageRolls-Dev",
-    "description": "",
+    "description": "Foundry module to get session and lifetime average D20 rolls per user.",
     "author": "BeardedJotunn",
-    "version": "0.8.5",
+    "version": "0.8.6",
     "minimumCoreVersion": "0.6.6",
-    "compatibleCoreVersion": "0.6.6",
+    "compatibleCoreVersion": "0.7.2",
     "scripts": [
         "scripts/averagerolls.js"
     ],
     "url": "https://github.com/BeardedJotunn/FoundryVTT-AverageRolls",
-    "manifest": "https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-AverageRolls/master/module.json",
-    "download": "https://github.com/BeardedJotunn/FoundryVTT-AverageRolls/archive/master.zip"
+    "manifest": "https://raw.githubusercontent.com/BeardedJotunn/FoundryVTT-AverageRolls/dev/module.json",
+    "download": "https://github.com/BeardedJotunn/FoundryVTT-AverageRolls/archive/dev.zip"
   }
