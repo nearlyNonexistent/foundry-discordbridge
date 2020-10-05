@@ -92,9 +92,11 @@ function outputAverages(userid = "") {
         msg = new ChatMessage();
         msg.user = user;
         msg.data.user = userid;
-        sessionAverage = bringFlag(userid, "sessionAverage");
-        roundedAverage = Math.round((sessionAverage + Number.EPSILON) * 100) / 100;
-        msg.data.content = "Session average for " + user.name + " is " + roundedAverage;
+        sessAverage = bringFlag(userid, "sessionAverage");
+        lifeAverage = bringFlag(userid, "lifetimeAverage");
+        sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
+        lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
+        msg.data.content = "Session average: " + sessionAverage + "<br>Lifetime average: " + lifetimeAverage;
         ChatMessage.create(msg);
     } else {
         game.users.entries.forEach(user => {
@@ -102,9 +104,11 @@ function outputAverages(userid = "") {
             msg = new ChatMessage();
             msg.user = user;
             msg.data.user = userid;
-            sessionAverage = bringFlag(userid, "sessionAverage");
-            roundedAverage = Math.round((sessionAverage + Number.EPSILON) * 100) / 100;
-            msg.data.content = "Session average for " + user.name + " is " + roundedAverage;
+            sessAverage = bringFlag(userid, "sessionAverage");
+            lifeAverage = bringFlag(userid, "lifetimeAverage");
+            sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
+            lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
+            msg.data.content = "Session average: " + sessionAverage + "<br>Lifetime average: " + lifetimeAverage;
             ChatMessage.create(msg);
         })
     }
@@ -148,7 +152,6 @@ function createJournal() {
 }
 
 function updateJournal() {
-    console.log(1);
     entry = null;
     gmFound = false;
     game.users.entries.some(function(user, index) {
@@ -158,9 +161,7 @@ function updateJournal() {
         }
         return gmFound;
     })
-    console.log(2);
     if (typeof entry == "undefined" || entry == null) {
-        console.log(5);
         return createJournal();
     }
 
@@ -173,10 +174,8 @@ function updateJournal() {
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "<p>--------</p><p>" + user.name + "<br>Session Average: " + sessionAverage + "<br>Lifetime Average: " + lifetimeAverage + "</p>";
     })
-    console.log(3);
     entry.data.content = content;
     JournalEntry.update(entry);
-    console.log(4);
 }
 
 function findJournal() {
