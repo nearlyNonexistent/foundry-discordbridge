@@ -7,12 +7,22 @@ Hooks.once("init", function () {
         default: true,
         config: true
     });
+
     game.settings.register('averagerolls', "JournalEntry", {
         name: "Create Journal Entry",
         hint: "Enable this to create a journal entry with average rolls.",
         scope: "world",
         type: Boolean,
         default: true,
+        config: true
+    });
+
+    game.settings.register('averagerolls', "UpdateFrequency", {
+        name: "Update Frequency",
+        hint: "How often in seconds you want the journal entry to update, does nothing if create journal entry isn't enabled.",
+        scope: "world",
+        type: Number,
+        default: 30,
         config: true
     });
 });
@@ -242,12 +252,13 @@ Hooks.on("createChatMessage", (message, options, user) =>
     console.log("AverageRolls - Lifetime average for " + message.user.name + " is " + newAverage );
     
     if (game.settings.get("averagerolls", "JournalEntry")) {
+        time = parseInt(game.settings.get("averagerolls", "UpdateFrequency")) * 1000;
         if (typeof timer == "undefined" || timer.cleared) {
             timer = new timeOut(function () {
                 console.log("AverageRolls - Updating Average Rolls Journal Entry.")
-                //updateJournal();
+                updateJournal();
                 timer.clear();
-            }, 5000);
+            }, time);
         }
     }
 });
