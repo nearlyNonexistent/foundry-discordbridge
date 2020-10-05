@@ -7,33 +7,12 @@ Hooks.once("init", function () {
             default: true,
             config: true
         });
-    
-    /*
-    game.settings.register('averagerolls', 'resetRolls', {
-        name: "Journal Entry Name",
-        hint: "Reset all rolls.",
-        scope: "world",
-        config: true,
-        default: "Average Rolls",
-        type: Boolean,
-        onChange: () => {
-            resetRolls();
-        }
-    });
-    game.users.entries.forEach(user => {
-        userid = user.id;
-        game.settings.register('averagerolls', userid, {
-            name: user.name + " Rolls",
-            scope: "world",
-            config: true,
-            default: [],
-            type: Array,
-        });
-    }) */
 });
 
 Hooks.once("ready", function () { 
-    startUp();
+    if (game.settings.get("averagerolls", "Enabled")) {
+        startUp();
+    }
 });
 
 // Adding flags for rolls and average to all users
@@ -43,15 +22,13 @@ function startUp() {
         userid = user.id;
         plantFlag(userid, "sessionAverage", 0);
         plantFlag(userid, "sessionRolls", []);
-        /*
-        if (bringFlag(userid, "rolls") == undefined) {
-            plantFlag(userid, "rolls", []);
+        if (typeof bringFlag(userid, "lifetimeAverage") == "undefined") {
+            plantFlag(userid, "lifetimeAverage", []);
         }
-        if (bringFlag(userid, "average") == undefined) {
-            plantFlag(userid, "average", []);
+        if (typeof bringFlag(userid, "lifetimeRolls") == "undefined") {
+            plantFlag(userid, "lifetimeRolls", 0);
         }
-        */
-        console.log(userid + " reset");
+        console.log(userid + " reset for session.");
     })
 }
  // Resets all flags
@@ -62,8 +39,21 @@ function resetRolls() {
         plantFlag(userid, "sessionAverage", 0);
         plantFlag(userid, "sessionRolls", []);
         plantFlag(userid, "lifetimeAverage", 0);
-        plantFlag(userid, "lifetimeRolls", []);
-        console.log(userid + " reset");
+        plantFlag(userid, "lifetimeRolls", 0);
+        console.log(userid + " reset.");
+    })
+}
+
+// Sets all flags used to null
+function cleanUp() {
+    console.log("Cleaning up all users");
+    game.users.entries.forEach(user => {
+        userid = user.id;
+        plantFlag(userid, "sessionAverage", null);
+        plantFlag(userid, "sessionRolls", null);
+        plantFlag(userid, "lifetimeAverage", null);
+        plantFlag(userid, "lifetimeRolls", null);
+        console.log(userid + " cleaned up.");
     })
 }
 
@@ -71,7 +61,7 @@ function resetRolls() {
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
     console.log(get);
-    if (get == undefined) {
+    if (typeof get == "undefined") {
         console.log("Couldn't find flag");
     }
     return get;
@@ -107,6 +97,7 @@ function outputAverages(userid = "") {
     }
 }
 
+// Hooks the chat message and if it's a D20 roll adds it to the roll flag and calculates averages for user that sent it.
 Hooks.on("createChatMessage", (message, options, user) => 
 {
     if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
@@ -117,7 +108,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
     result = parseInt(message.roll.result.split(" ")[0]);
     console.log(name + " rolled a " + result);
 
-    sessionRolls = bringFlag(user, "sessionRolls")
+    sessionRolls = bringFlag(user, "sessionRolls");
     sessionRolls.push(result);
     plantFlag(user, "sessionRolls", sessionRolls);
     sessionSum = sessionRolls.reduce((a, b) => a + b, 0);
@@ -126,20 +117,11 @@ Hooks.on("createChatMessage", (message, options, user) =>
     console.log("Session average for " + message.user.name + " is " + sessionAverage );
 
     
-    lifetimeRolls = bringFlag(user, "lifetimeRolls")
-    lifetimeRolls.push(result);
-    plantFlag(user, "lifetimeRolls", lifetimeRolls);
-    sum = lifetimeRolls.reduce((a, b) => a + b, 0);
-    lifetimeAverage = sum/lifetimeRolls.length;
-    plantFlag(user, "lifetimeAverage", lifetimeAverage);
-    console.log("Lifetime average for " + message.user.name + " is " + lifetimeAverage );
-    /*
-    rolls = game.settings.get("averagerolls", user)
-    rolls.push(result);
-    plantFlag(user, "rolls", rolls);
-    sum = rolls.reduce((a, b) => a + b, 0);
-    average = sum/rolls.length;
-    plantFlag(user, "average", average);
-    console.log("Lifetime average for " + message.user.name + " is " + average );
-    */
+    lifetimeRolls = bringFlag(user, "lifetimeRolls");
+    lifetimeAverage = bringFlag(user, "lifetimeAverage");
+    newRolls = lifetimeRolls + 1;
+    newAverage = ((lifetimeAverage * lifetimeRolls) + result) / (newRolls);
+    plantFlag(user, "lifetimeRolls", newRolls);
+    plantFlag(user, "lifetimeAverage", newAverage);
+    console.log("Lifetime average for " + message.user.name + " is " + newAverage );
 });
