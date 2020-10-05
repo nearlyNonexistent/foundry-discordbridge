@@ -113,6 +113,7 @@ function createJournal() {
     gm = "";
     gmFound = false;
     game.users.entries.some(function(user, index) {
+        console.log(user);
         if (user.isGM) {
             gm = user;
             gmFound = true;
