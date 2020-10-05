@@ -3,7 +3,7 @@
     "title": "AverageRolls-Dev",
     "description": "Foundry module to get session and lifetime average D20 rolls per user.",
     "author": "BeardedJotunn",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "minimumCoreVersion": "0.6.6",
     "compatibleCoreVersion": "0.7.2",
     "scripts": [

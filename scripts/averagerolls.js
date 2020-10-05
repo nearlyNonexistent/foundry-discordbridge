@@ -184,7 +184,7 @@ function updateJournal() {
     }
 
     entry.data.content = content;
-    return JournalEntry.update(entry);
+    return entry.update(entry.data);
 }
 
 function findJournal() {
