@@ -74,7 +74,6 @@ function cleanUp() {
 // Get specified flag for userid
 function bringFlag(userid, flag) {
     get = game.users.get(userid).getFlag("averagerolls", flag)
-    console.log(get);
     if (typeof get == "undefined") {
         console.log("Couldn't find flag");
     }
@@ -138,6 +137,7 @@ function createJournal() {
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
         if (user.isGM) {
+            console.log('Planting journalId flag ' + entry.id);
             plantFlag(userid, "journalId", entry.id);
         }
     })
@@ -165,7 +165,7 @@ function updateJournal() {
     game.users.entries.forEach(user => {
         userid = user.id;
         sessAverage = bringFlag(userid, "sessionAverage");
-        lifeAverage = bringFlag(userid, "sessionAverage");
+        lifeAverage = bringFlag(userid, "lifetimeAverage");
         sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
@@ -179,11 +179,12 @@ function findJournal() {
     journalFound = false;
     gmFound = false;
     game.journal.entries.some(function(entry, index) {
-        if (entry.name = "Average Rolls") {
+        if (entry.name == "Average Rolls") {
             journalEntry = entry;
             entryFound = true;
             game.users.entries.some(function(user, index) {
                 if (user.isGM) {
+                    console.log('Planting journalId flag ' + entry.id);
                     plantFlag(userid, "journalId", entry.id);
                     gmFound = true;
                 }
@@ -225,7 +226,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
     
     lifetimeRolls = bringFlag(user, "lifetimeRolls");
     lifetimeAverage = bringFlag(user, "lifetimeAverage");
-    newRolls = lifetimeRolls + 1;
+    newRolls = parseInt(lifetimeRolls) + 1;
     newAverage = ((lifetimeAverage * lifetimeRolls) + result) / (newRolls);
     plantFlag(user, "lifetimeRolls", newRolls);
     plantFlag(user, "lifetimeAverage", newAverage);
