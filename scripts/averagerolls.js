@@ -139,6 +139,7 @@ function createJournal() {
 }
 
 function updateJournal() {
+    entry = null;
     gmFound = false;
     game.users.entries.some(function(user, index) {
         if (user.isGM) {
@@ -148,7 +149,7 @@ function updateJournal() {
         return gmFound;
     })
 
-    if (typeof entry == "undefined") {
+    if (typeof entry == "undefined" || entry == null) {
         return createJournal();
     }
 
