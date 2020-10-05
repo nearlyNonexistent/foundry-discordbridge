@@ -176,9 +176,12 @@ function updateJournal() {
 }
 
 function findJournal() {
+    journalFound = false;
     gmFound = false;
-    game.journal.entries.forEach(entry => {
+    game.journal.entries.some(function(entry, index) {
         if (entry.name = "Average Rolls") {
+            journalEntry = entry;
+            entryFound = true;
             game.users.entries.some(function(user, index) {
                 if (user.isGM) {
                     plantFlag(userid, "journalId", entry.id);
@@ -186,9 +189,11 @@ function findJournal() {
                 }
                 return gmFound;
             })
-            return entry;
+            return entryFound;
         }
     })
+    console.log(journalEntry);
+    return journalEntry;
 }
 
 function getJournal(journalId) {
@@ -199,22 +204,15 @@ function getJournal(journalId) {
     return entry;
 }
 
-Hooks.on("createJournalEntry", (entry, options, user) => 
-{
-    console.log(entry);
-    console.log(options);
-});
 
 // Hooks the chat message and if it's a D20 roll adds it to the roll flag and calculates averages for user that sent it.
 Hooks.on("createChatMessage", (message, options, user) => 
 {
     if (!game.settings.get("averagerolls", "Enabled") || !message.isRoll || !message.roll.dice[0].faces == 20) {
-        console.log("returning");
         return;
     }
     name = message.user.name;
     result = parseInt(message.roll.result.split(" ")[0]);
-    console.log(name + " rolled a " + result);
 
     sessionRolls = bringFlag(user, "sessionRolls");
     sessionRolls.push(result);
@@ -234,6 +232,7 @@ Hooks.on("createChatMessage", (message, options, user) =>
     console.log("Lifetime average for " + message.user.name + " is " + newAverage );
 
     if (game.settings.get("averagerolls", "JournalEntry")) {
+        console.log("Updating Average Rolls Journal Entry.")
         updateJournal();
     }
 });
