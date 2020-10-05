@@ -176,12 +176,11 @@ function updateJournal() {
 }
 
 function findJournal() {
-    journalFound = false;
     gmFound = false;
-    game.journal.entries.some(function(entry, index) {
+    journalEntry = null;
+    game.journal.entries.forEach(entry => {
         if (entry.name == "Average Rolls") {
             journalEntry = entry;
-            entryFound = true;
             game.users.entries.some(function(user, index) {
                 if (user.isGM) {
                     console.log('Planting journalId flag ' + entry.id);
@@ -190,9 +189,11 @@ function findJournal() {
                 }
                 return gmFound;
             })
-            return entryFound;
         }
     })
+    if (journalEntry == null) {
+        console.log("Couldn't find Journal Entry.");
+    }
     console.log(journalEntry);
     return journalEntry;
 }
