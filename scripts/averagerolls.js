@@ -118,6 +118,7 @@ function createJournal() {
         if (user.isGM) {
             gm = user;
             gmFound = true;
+            console.log(user.id + " is GM")
         }
         return gmFound;
     })
@@ -139,6 +140,7 @@ function createJournal() {
         if (user.isGM) {
             console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
             plantFlag(userid, "journalId", entry.id);
+            console.log(userid + " is GM")
         }
     })
     
@@ -153,6 +155,7 @@ function updateJournal() {
         if (user.isGM) {
             entry = getJournal(bringFlag(user.id, "journalId"));
             gmFound = true;
+            console.log(user.id + " is GM")
         }
         return gmFound;
     })
@@ -184,8 +187,9 @@ function findJournal() {
             game.users.entries.some(function(user, index) {
                 if (user.isGM) {
                     console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
-                    plantFlag(userid, "journalId", entry.id);
+                    plantFlag(user.id, "journalId", entry.id);
                     gmFound = true;
+                    console.log(user.id + " is GM")
                 }
                 return gmFound;
             })
