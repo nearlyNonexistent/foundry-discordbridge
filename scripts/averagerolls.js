@@ -53,6 +53,9 @@ function cleanUp() {
         plantFlag(userid, "sessionRolls", null);
         plantFlag(userid, "lifetimeAverage", null);
         plantFlag(userid, "lifetimeRolls", null);
+        if (user.isGM) {
+            plantFlag(userid, "journalId", null);
+        }
         console.log(userid + " cleaned up.");
     })
 }
@@ -98,7 +101,67 @@ function outputAverages(userid = "") {
 }
 
 function createJournal() {
+    gm = "";
+    game.users.entries.forEach(user => {
+        if (user.isGM) {
+            gm = user;
+            break;
+        }
+    })
+    userid = user.id;
+    entry = new JournalEntry();
+    entry.user = gm;
+    entry.name = "Average Rolls";
+    entry.data.user = userid;
+
+    content = "AverageRolls";
+    game.users.entries.forEach(user => {
+        sessAverage = bringFlag(userid, "sessionAverage");
+        lifeAverage = bringFlag(userid, "sessionAverage");
+        sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
+        lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
+        content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
+    })
     
+    entry.data.content = content;
+    JournalEntry.create(entry);
+}
+
+function updateJournal() {
+    entry;
+    game.users.entries.forEach(user => {
+        if (user.isGM) {
+            entry = getJournal(bringFlag(user.id, "journalId"));
+            break;
+        }
+    })
+    content = "AverageRolls";
+    game.users.entries.forEach(user => {
+        sessAverage = bringFlag(userid, "sessionAverage");
+        lifeAverage = bringFlag(userid, "sessionAverage");
+        sessionAverage = Math.round((sessAverage + Number.EPSILON) * 100) / 100;
+        lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
+        content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
+    })
+    
+    entry.data.content = content;
+    JournalEntry.update(entry);
+}
+
+function findJournal() {
+    game.journal.entries.forEach(entry => {
+        if (entry.name = "Average Rolls") {
+            return entry;
+        }
+    })
+}
+
+function getJournal(journalId) {
+    entry = game.journal.get(journalId);
+    if (typeof entry == "undefined") {
+        return findJournal();
+    }
+    return entry;
 }
 
 Hooks.on("createJournalEntry", (entry, options, user) => 
