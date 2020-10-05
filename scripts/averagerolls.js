@@ -141,14 +141,12 @@ function createJournal() {
         lifetimeAverage = Math.round((lifeAverage + Number.EPSILON) * 100) / 100;
         content += "\n--------\n" + user.name + "\nSession Average: " + sessionAverage + "\nLifetime Average: " + lifetimeAverage;
         if (user.isGM) {
-            console.log('Planting journalId flag ' + entry.id + " on userid " + user.id);
             plantFlag(userid, "journalId", entry.id);
-            console.log(userid + " is GM")
         }
     })
     
     entry.data.content = content;
-    JournalEntry.create(entry);
+    return JournalEntry.create(entry);
 }
 
 function updateJournal() {
@@ -168,11 +166,11 @@ function updateJournal() {
     })
 
     if (typeof entry == "undefined" || entry == null) {
-        entry = createJournal();
+        return createJournal();
     }
 
     entry.data.content = content;
-    JournalEntry.update(entry);
+    return JournalEntry.update(entry);
 }
 
 function findJournal() {
