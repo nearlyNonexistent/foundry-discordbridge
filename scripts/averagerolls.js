@@ -1,6 +1,7 @@
 Hooks.once("init", function () {
     game.settings.register('averagerolls', "Enabled", {
         name: "Enabled",
+        hint: "Enable this to calculate average rolls.",
         scope: "world",
         type: Boolean,
         default: true,
@@ -8,6 +9,7 @@ Hooks.once("init", function () {
     });
     game.settings.register('averagerolls', "JournalEntry", {
         name: "Create Journal Entry",
+        hint: "Enable this to create a journal entry with average rolls.",
         scope: "world",
         type: Boolean,
         default: true,
@@ -123,8 +125,9 @@ function createJournal() {
     userid = gm.id;
     entry = new JournalEntry();
     entry.user = gm;
-    entry.name = "Average Rolls";
     entry.data.user = userid;
+    entry.name = "Average Rolls";
+    entry.data.name = "Average Rolls";
 
     content = "AverageRolls";
     game.users.entries.forEach(user => {
