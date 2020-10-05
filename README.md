@@ -10,7 +10,7 @@ This is a simple module to get session and lifetime average D20 rolls per user p
 
 ## Future Plans:
  - ~~Add lifetime averages.~~ Added, waiting to see how it works long term.
- - Better way to display averages.
+ - ~~Better way to display averages.~~ Added, lagging behind one roll, working on fixing that.
  - Perhaps some Discord connection. 
 
 Was originally going to be a Discord Bot module which is why I forked DiscordBridge by nearlyNonexistent. However I ended up quickly diverging from that but maybe it will return one day.
